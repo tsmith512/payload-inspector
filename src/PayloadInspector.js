@@ -49,7 +49,7 @@ const PayloadInspector: React.FC = () => {
       return false;
     }
 
-    const inspectedPayload = listKeys(JSON.parse(input));
+    const inspectedPayload = listKeys(JSON.parse(input)).sort();
     setPayload(inspectedPayload.join("\n"));
   }
 
@@ -60,13 +60,15 @@ const PayloadInspector: React.FC = () => {
         <TextField
           label="Input FSL Payload"
           multiline
-          variant="outlined"
           fullWidth
+          size="small"
+          margin="normal"
+          variant="outlined"
           onChange={(e) => (testInput(e.target.value))} />
       </Box>
       <Box flexGrow={1} p={2} width="50%">
         <Typography variant="h5" paragraph>Output</Typography>
-        <Box component="pre">
+        <Box component="pre" style={{whiteSpace: "pre-line"}}>
           {payload}
         </Box>
       </Box>
