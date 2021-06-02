@@ -8,8 +8,13 @@ class PayloadInspector extends React.Component {
   constructor(props) {
     super(props);
 
+    this.samplePayload = {
+      string: '{"foo":"bar"}',
+      keys: splitPayload('{"foo":"bar"}'),
+    };
+
     this.state = {
-      payloads: ['{"foo": "bar"}'],
+      payloads: [this.samplePayload],
     };
 
     this.handleAdd = this.handleAdd.bind(this);
@@ -18,24 +23,28 @@ class PayloadInspector extends React.Component {
 
   handleAdd() {
     this.setState({
-      payloads: this.state.payloads.concat(['{"foo": "bar"}']),
+      payloads: this.state.payloads.concat([this.samplePayload]),
     });
   }
 
   handleUpdate(newValue, index) {
     const newState = this.state;
-    newState.payloads[index] = newValue;
+
+    newState.payloads[index] = {
+      value: newValue,
+      keys: splitPayload(newValue),
+    };
 
     this.setState(newState);
   }
 
   render() {
-    const payloadPages = this.state.payloads.map((value, index) => (
+    const payloadPages = this.state.payloads.map((payload, index) => (
       <PayloadInput
         key={index.toString()}
         index={index}
-        value={value}
-        containedKeys={splitPayload(value)}
+        value={payload.string}
+        containedKeys={payload.keys}
         onPayloadUpdate={this.handleUpdate}
         />
     ));
