@@ -80,8 +80,8 @@ class PayloadInspector extends React.Component {
               <TableRow>
                 <TableCell>{key}</TableCell>
                 <TableCell>
-                  {(countedKeys[key] == totalPayloads) && "✅ "}
-                  {(countedKeys[key] != totalPayloads) && "🚫 "}
+                  {(countedKeys[key] === totalPayloads) && "✅ "}
+                  {(countedKeys[key] !== totalPayloads) && "🚫 "}
                   {countedKeys[key]} of {totalPayloads}
                 </TableCell>
               </TableRow>
