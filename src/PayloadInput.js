@@ -2,8 +2,8 @@ import { Box, Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import splitPayload from './splitPayload';
 
-const PayloadInput = ({index}) => {
-  const [payload, setPayload] = useState(['Waiting for input.']);
+const PayloadInput = ({index, value}) => {
+  const [payload, setPayload] = useState(splitPayload(value));
 
   const testInput = (input) => {
     const processedPayload = splitPayload(input);
@@ -25,6 +25,7 @@ const PayloadInput = ({index}) => {
             size="small"
             margin="normal"
             variant="outlined"
+            defaultValue={value}
             onChange={(e) => (testInput(e.target.value))} />
         </Box>
         <Box flexGrow={1} p={2} width="50%">

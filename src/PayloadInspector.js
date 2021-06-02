@@ -7,20 +7,19 @@ class PayloadInspector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      payloads: [{}],
+      payloads: ['{"foo": "bar"}'],
     }
   }
 
   handleAdd() {
-    this.setState({ payloads: this.state.payloads.concat([{}]) });
-    console.log(this.state);
+    this.setState({ payloads: this.state.payloads.concat(['{"foo": "bar"}']) });
   }
 
   render() {
     return (
       <React.Fragment>
         {this.state.payloads.map((value, index) => {
-          return (<PayloadInput key={index.toString()} index={index} />);
+          return (<PayloadInput key={index.toString()} index={index} value={value} />);
         })}
 
         <Box p={2}>
