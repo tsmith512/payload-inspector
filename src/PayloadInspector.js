@@ -19,6 +19,7 @@ class PayloadInspector extends React.Component {
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handlePretty = this.handlePretty.bind(this);
   }
 
   handleAdd() {
@@ -31,9 +32,25 @@ class PayloadInspector extends React.Component {
     const newState = this.state;
 
     newState.payloads[index] = {
-      value: newValue,
+      string: newValue,
       keys: splitPayload(newValue),
     };
+
+    this.setState(newState);
+  }
+
+  handlePretty() {
+    const newState = this.state;
+
+    newState.payloads.forEach((payload, index, payloads) => {
+      try {
+        const object = JSON.parse(payload.string);
+        newState.payloads[index].string =  JSON.stringify(object, null, 2);
+      }
+      catch (e) {
+        // @TODO: Silently fail, don't try to prettify busted JSON.
+      }
+    });
 
     this.setState(newState);
   }
@@ -93,10 +110,13 @@ class PayloadInspector extends React.Component {
 
     return (
       <React.Fragment>
-        <Box p={2}>
+        <Box m={2}>
           <Button
-            variant="contained" color="primary"
+            variant="contained" color="primary" style={{marginRight: "1em"}}
             onClick={this.handleAdd}>Add Payload</Button>
+          <Button
+            variant="outlined" color="primary" style={{marginRight: "1em"}}
+            onClick={this.handlePretty}>Pretty Print All</Button>
         </Box>
         {payloadPages}
 

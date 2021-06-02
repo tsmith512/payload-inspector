@@ -29,7 +29,7 @@ class PayloadInput extends React.Component {
               size="small"
               margin="normal"
               variant="outlined"
-              defaultValue={this.props.value}
+              value={this.props.value}
               onChange={this.handleUpdate} />
           </Box>
 
