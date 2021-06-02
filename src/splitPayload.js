@@ -39,7 +39,7 @@ const splitPayload = (input) => {
   try {
     JSON.parse(input);
   } catch (e) {
-    return false;
+    return ['Invalid JSON'];
   }
 
   return listKeys(JSON.parse(input)).sort();

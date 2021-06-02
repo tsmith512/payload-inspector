@@ -1,43 +1,51 @@
+import React from 'react';
 import { Box, Paper, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
-import splitPayload from './splitPayload';
 
-const PayloadInput = ({index, value}) => {
-  const [payload, setPayload] = useState(splitPayload(value));
-
-  const testInput = (input) => {
-    const processedPayload = splitPayload(input);
-    setPayload((processedPayload) ? processedPayload : ['Invalid JSON']);
+class PayloadInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  return (
-    <Paper style={{margin: 16}}>
-      <Box width="100%" p={2}>
-        <Typography variant="button" component="div">Payload #{index}</Typography>
-      </Box>
-      <Box display="flex" width="100%">
-        <Box flexGrow={1} p={2} width="50%">
-          <Typography variant="h5" paragraph>Input Payload</Typography>
-          <TextField
-            label="Input FSL Payload"
-            multiline
-            fullWidth
-            size="small"
-            margin="normal"
-            variant="outlined"
-            defaultValue={value}
-            onChange={(e) => (testInput(e.target.value))} />
-        </Box>
-        <Box flexGrow={1} p={2} width="50%">
-          <Typography variant="h5" paragraph>Output</Typography>
-          <ul>
-            {payload.map((line, num) => {return <li key={num}>{line}</li>})}
-          </ul>
-        </Box>
-      </Box>
-    </Paper>
-  );
+  handleUpdate(e) {
+    this.props.onPayloadUpdate(e.target.value, this.props.index);
+  }
 
+  render() {
+    return (
+      <Paper style={{margin: 16}}>
+        <Box width="100%" p={2}>
+          <Typography variant="button" component="div">Payload #{this.props.index}</Typography>
+        </Box>
+
+        {/* The input field for the FSL JSON */}
+        <Box display="flex" width="100%">
+          <Box flexGrow={1} p={2} width="50%">
+            <Typography variant="h5" paragraph>Input Payload</Typography>
+            <TextField
+              label="Input FSL Payload"
+              multiline
+              fullWidth
+              size="small"
+              margin="normal"
+              variant="outlined"
+              defaultValue={this.props.value}
+              onChange={this.handleUpdate} />
+          </Box>
+
+          {/* The output with the keys in this payload as a list */}
+          <Box flexGrow={1} p={2} width="50%">
+            <Typography variant="h5" paragraph>Output</Typography>
+            <ul>
+              {this.props.containedKeys.map((line, num) => {
+                return <li key={num}>{line}</li>
+              })}
+            </ul>
+          </Box>
+        </Box>
+      </Paper>
+    );
+  }
 }
 
 export default PayloadInput;
