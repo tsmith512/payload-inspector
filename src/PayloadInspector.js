@@ -1,5 +1,5 @@
-import { Button, Box } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Paper, Button, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import React from 'react';
 
 import PayloadInput from './PayloadInput';
 import splitPayload from './splitPayload';
@@ -49,15 +49,59 @@ class PayloadInspector extends React.Component {
         />
     ));
 
+    // Make a big pile of all payload keys
+    const payloadAggregate = this.state.payloads.map((payload, index) => (payload.keys)).flat().sort();
+
+    // Filter for uniques
+    const payloadUnion = payloadAggregate.filter((val, i, self) => {
+      return self.indexOf(val) === i;
+    })
+
+    // Now count how many payloads include each unique
+    const countedKeys = {};
+    payloadAggregate.forEach((key) => {
+      countedKeys[key] = (countedKeys[key] || 0) + 1;
+    });
+
+    // And how many payloads do we have in total
+    const totalPayloads = this.state.payloads.length;
+
+    const detailsTable = (
+      <TableContainer component={Paper} style={{margin: 16}}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Key Path</TableCell>
+              <TableCell>Total: {totalPayloads}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {payloadUnion.map((key) => (
+              <TableRow>
+                <TableCell>{key}</TableCell>
+                <TableCell>
+                  {(countedKeys[key] == totalPayloads) && "✅ "}
+                  {(countedKeys[key] != totalPayloads) && "🚫 "}
+                  {countedKeys[key]} of {totalPayloads}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+
     return (
       <React.Fragment>
-        {payloadPages}
-
         <Box p={2}>
           <Button
             variant="contained" color="primary"
             onClick={this.handleAdd}>Add Payload</Button>
         </Box>
+        {payloadPages}
+
+        {detailsTable}
+
       </React.Fragment>
     )
   }
