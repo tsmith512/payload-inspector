@@ -13,7 +13,7 @@ class PayloadInput extends React.Component {
 
   render() {
     return (
-      <Paper style={{margin: 16}}>
+      <Paper style={{margin: 16, width: "100%"}}>
         <Box width="100%" p={2}>
           <Typography variant="button" component="div">Payload #{this.props.index}</Typography>
         </Box>
