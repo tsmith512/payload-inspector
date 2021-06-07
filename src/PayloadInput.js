@@ -23,7 +23,14 @@ class PayloadInput extends React.Component {
           <Box flexGrow={1} p={2} width="50%">
             <Typography variant="h5" paragraph>Input Payload</Typography>
             <TextField
-              label="Input FSL Payload"
+              label="Label"
+              fullWidth
+              size="normal"
+              margin="normal"
+              />
+
+            <TextField
+              label="Payload"
               multiline
               fullWidth
               size="small"
