@@ -106,7 +106,7 @@ class PayloadInspector extends React.Component {
                     {countedKeys[key]} of {totalPayloads}
                   </Typography>
                   {(countedKeys[key] !== totalPayloads) && (<React.Fragment>
-                    Not found in: {this.state.payloads.filter(p => p.keys.indexOf(key) !== 0).map(q => q.label).join(', ')}
+                    Not found in: {this.state.payloads.filter(p => p.keys.indexOf(key) === -1).map(q => q.label).join(', ')}
                   </React.Fragment>)}
                 </TableCell>
               </TableRow>
