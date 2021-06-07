@@ -19,7 +19,8 @@ class PayloadInspector extends React.Component {
     };
 
     this.handleAdd = this.handleAdd.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleLabelUpdate = this.handleLabelUpdate.bind(this);
+    this.handlePayloadUpdate = this.handlePayloadUpdate.bind(this);
     this.handlePretty = this.handlePretty.bind(this);
   }
 
@@ -29,13 +30,26 @@ class PayloadInspector extends React.Component {
     });
   }
 
-  handleUpdate(newValue, index) {
+  handleLabelUpdate(newValue, index) {
     const newState = this.state;
 
     newState.payloads[index] = {
+      label: newValue,
+      string: this.state.payloads[index].string,
+      keys: this.state.payloads[index].keys,
+    }
+
+    this.setState(newState);
+  }
+
+  handlePayloadUpdate(newValue, index) {
+    const newState = this.state;
+
+    newState.payloads[index] = {
+      label: this.state.payloads[index].label,
       string: newValue,
       keys: splitPayload(newValue),
-    };
+    }
 
     this.setState(newState);
   }
@@ -62,9 +76,10 @@ class PayloadInspector extends React.Component {
         key={index.toString()}
         index={index}
         label={payload.label}
+        onLabelUpdate={this.handleLabelUpdate}
         value={payload.string}
+        onPayloadUpdate={this.handlePayloadUpdate}
         containedKeys={payload.keys}
-        onPayloadUpdate={this.handleUpdate}
         />
     ));
 

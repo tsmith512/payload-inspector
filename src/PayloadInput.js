@@ -4,10 +4,15 @@ import { Box, Paper, TextField, Typography } from '@material-ui/core';
 class PayloadInput extends React.Component {
   constructor(props) {
     super(props);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleLabelUpdate = this.handleLabelUpdate.bind(this);
+    this.handlePayloadUpdate = this.handlePayloadUpdate.bind(this);
   }
 
-  handleUpdate(e) {
+  handleLabelUpdate(e) {
+    this.props.onLabelUpdate(e.target.value, this.props.index);
+  }
+
+  handlePayloadUpdate(e) {
     this.props.onPayloadUpdate(e.target.value, this.props.index);
   }
 
@@ -28,7 +33,7 @@ class PayloadInput extends React.Component {
               size="medium"
               margin="normal"
               value={this.props.label}
-              />
+              onChange={this.handleLabelUpdate} />
 
             <TextField
               label="Payload"
@@ -38,12 +43,13 @@ class PayloadInput extends React.Component {
               margin="normal"
               variant="outlined"
               value={this.props.value}
-              onChange={this.handleUpdate} />
+              onChange={this.handlePayloadUpdate} />
           </Box>
 
           {/* The output with the keys in this payload as a list */}
           <Box flexGrow={1} p={2} width="50%">
             <Typography variant="h5" paragraph>Output</Typography>
+            <Typography variant="button" paragraph>{this.props.label}</Typography>
             <ul>
               {this.props.containedKeys.map((line, num) => {
                 return <li key={num}>{line}</li>
