@@ -97,7 +97,7 @@ class PayloadInspector extends React.Component {
           </TableHead>
           <TableBody>
             {payloadUnion.map((key) => (
-              <TableRow>
+              <TableRow key={key}>
                 <TableCell>{key}</TableCell>
                 <TableCell>
                   {(countedKeys[key] === totalPayloads) && "✅ "}
