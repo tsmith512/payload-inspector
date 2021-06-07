@@ -1,4 +1,4 @@
-import { Paper, Button, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Paper, Button, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Typography } from '@material-ui/core';
 import React from 'react';
 
 import PayloadInput from './PayloadInput';
@@ -100,9 +100,14 @@ class PayloadInspector extends React.Component {
               <TableRow key={key}>
                 <TableCell>{key}</TableCell>
                 <TableCell>
-                  {(countedKeys[key] === totalPayloads) && "✅ "}
-                  {(countedKeys[key] !== totalPayloads) && "🚫 "}
-                  {countedKeys[key]} of {totalPayloads}
+                  <Typography paragraph>
+                    {(countedKeys[key] === totalPayloads) && "✅ "}
+                    {(countedKeys[key] !== totalPayloads) && "🚫 "}
+                    {countedKeys[key]} of {totalPayloads}
+                  </Typography>
+                  {(countedKeys[key] !== totalPayloads) && (<React.Fragment>
+                    Not found in: {this.state.payloads.filter(p => p.keys.indexOf(key) !== 0).map(q => q.label).join(', ')}
+                  </React.Fragment>)}
                 </TableCell>
               </TableRow>
             ))}
