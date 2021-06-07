@@ -9,6 +9,7 @@ class PayloadInspector extends React.Component {
     super(props);
 
     this.samplePayload = {
+      label: 'Sample Payload',
       string: '{"foo":"bar"}',
       keys: splitPayload('{"foo":"bar"}'),
     };
@@ -60,6 +61,7 @@ class PayloadInspector extends React.Component {
       <PayloadInput
         key={index.toString()}
         index={index}
+        label={payload.label}
         value={payload.string}
         containedKeys={payload.keys}
         onPayloadUpdate={this.handleUpdate}

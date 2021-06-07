@@ -25,8 +25,9 @@ class PayloadInput extends React.Component {
             <TextField
               label="Label"
               fullWidth
-              size="normal"
+              size="medium"
               margin="normal"
+              value={this.props.label}
               />
 
             <TextField
