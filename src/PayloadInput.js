@@ -4,16 +4,11 @@ import { Box, Paper, TextField, Typography } from '@material-ui/core';
 class PayloadInput extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLabelUpdate = this.handleLabelUpdate.bind(this);
-    this.handlePayloadUpdate = this.handlePayloadUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  handleLabelUpdate(e) {
-    this.props.onUpdate(e.target.value, this.props.index, 'label');
-  }
-
-  handlePayloadUpdate(e) {
-    this.props.onUpdate(e.target.value, this.props.index, 'string');
+  handleUpdate(e) {
+    this.props.onUpdate(e.target.value, this.props.index, e.target.name);
   }
 
   render() {
@@ -29,21 +24,23 @@ class PayloadInput extends React.Component {
             <Typography variant="h5" paragraph>Input Payload</Typography>
             <TextField
               label="Label"
+              name="label"
               fullWidth
               size="medium"
               margin="normal"
               value={this.props.label}
-              onChange={this.handleLabelUpdate} />
+              onChange={this.handleUpdate} />
 
             <TextField
               label="Payload"
+              name="string"
               multiline
               fullWidth
               size="small"
               margin="normal"
               variant="outlined"
               value={this.props.value}
-              onChange={this.handlePayloadUpdate} />
+              onChange={this.handleUpdate} />
           </Box>
 
           {/* The output with the keys in this payload as a list */}
