@@ -9,11 +9,11 @@ class PayloadInput extends React.Component {
   }
 
   handleLabelUpdate(e) {
-    this.props.onLabelUpdate(e.target.value, this.props.index);
+    this.props.onUpdate(e.target.value, this.props.index, 'label');
   }
 
   handlePayloadUpdate(e) {
-    this.props.onPayloadUpdate(e.target.value, this.props.index);
+    this.props.onUpdate(e.target.value, this.props.index, 'string');
   }
 
   render() {
