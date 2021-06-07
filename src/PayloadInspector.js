@@ -1,4 +1,4 @@
-import { Paper, Button, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Paper, Button, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Typography } from '@material-ui/core';
 import React from 'react';
 
 import PayloadInput from './PayloadInput';
@@ -9,6 +9,7 @@ class PayloadInspector extends React.Component {
     super(props);
 
     this.samplePayload = {
+      label: 'Sample Payload',
       string: '{"foo":"bar"}',
       keys: splitPayload('{"foo":"bar"}'),
     };
@@ -28,12 +29,13 @@ class PayloadInspector extends React.Component {
     });
   }
 
-  handleUpdate(newValue, index) {
+  handleUpdate(newValue, index, propToChange) {
     const newState = this.state;
 
     newState.payloads[index] = {
-      string: newValue,
-      keys: splitPayload(newValue),
+      label: (propToChange === 'label') ? newValue : this.state.payloads[index].label,
+      string: (propToChange === 'string') ? newValue : this.state.payloads[index].string,
+      keys: (propToChange === 'string') ? splitPayload(newValue) : this.state.payloads[index].keys,
     };
 
     this.setState(newState);
@@ -60,9 +62,10 @@ class PayloadInspector extends React.Component {
       <PayloadInput
         key={index.toString()}
         index={index}
+        label={payload.label}
         value={payload.string}
+        onUpdate={this.handleUpdate}
         containedKeys={payload.keys}
-        onPayloadUpdate={this.handleUpdate}
         />
     ));
 
@@ -94,12 +97,17 @@ class PayloadInspector extends React.Component {
           </TableHead>
           <TableBody>
             {payloadUnion.map((key) => (
-              <TableRow>
+              <TableRow key={key}>
                 <TableCell>{key}</TableCell>
                 <TableCell>
-                  {(countedKeys[key] === totalPayloads) && "✅ "}
-                  {(countedKeys[key] !== totalPayloads) && "🚫 "}
-                  {countedKeys[key]} of {totalPayloads}
+                  <Typography paragraph>
+                    {(countedKeys[key] === totalPayloads) && "✅ "}
+                    {(countedKeys[key] !== totalPayloads) && "🚫 "}
+                    {countedKeys[key]} of {totalPayloads}
+                  </Typography>
+                  {(countedKeys[key] !== totalPayloads) && (<React.Fragment>
+                    Not found in: {this.state.payloads.filter(p => p.keys.indexOf(key) !== 0).map(q => q.label).join(', ')}
+                  </React.Fragment>)}
                 </TableCell>
               </TableRow>
             ))}

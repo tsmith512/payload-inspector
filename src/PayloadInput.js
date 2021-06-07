@@ -8,7 +8,7 @@ class PayloadInput extends React.Component {
   }
 
   handleUpdate(e) {
-    this.props.onPayloadUpdate(e.target.value, this.props.index);
+    this.props.onUpdate(e.target.value, this.props.index, e.target.name);
   }
 
   render() {
@@ -23,7 +23,17 @@ class PayloadInput extends React.Component {
           <Box flexGrow={1} p={2} width="50%">
             <Typography variant="h5" paragraph>Input Payload</Typography>
             <TextField
-              label="Input FSL Payload"
+              label="Label"
+              name="label"
+              fullWidth
+              size="medium"
+              margin="normal"
+              value={this.props.label}
+              onChange={this.handleUpdate} />
+
+            <TextField
+              label="Payload"
+              name="string"
               multiline
               fullWidth
               size="small"
@@ -36,6 +46,7 @@ class PayloadInput extends React.Component {
           {/* The output with the keys in this payload as a list */}
           <Box flexGrow={1} p={2} width="50%">
             <Typography variant="h5" paragraph>Output</Typography>
+            <Typography variant="button" paragraph>{this.props.label}</Typography>
             <ul>
               {this.props.containedKeys.map((line, num) => {
                 return <li key={num}>{line}</li>
